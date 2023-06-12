@@ -3,6 +3,7 @@ using eShop.Data.EF;
 using eShop.Utilities.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 
 namespace eShop.BackendApi
 {
@@ -24,6 +25,11 @@ namespace eShop.BackendApi
             builder.Services.AddTransient<IPublicProductService, PublicProductService>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop", Version = "v1" });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,6 +46,13 @@ namespace eShop.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShop v1");
+            });
 
             app.MapControllerRoute(
                 name: "default",
