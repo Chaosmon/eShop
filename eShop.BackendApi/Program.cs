@@ -1,4 +1,5 @@
 using eShop.Application.Catalog.Products;
+using eShop.Application.Common;
 using eShop.Data.EF;
 using eShop.Utilities.Constants;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,9 @@ namespace eShop.BackendApi
             builder.Services.AddDbContext<EShopDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
             // Add a custom Transient service.
+            builder.Services.AddTransient<IStorageService, FileStorageService>();
             builder.Services.AddTransient<IPublicProductService, PublicProductService>();
+            builder.Services.AddTransient<IManageProductService, ManageProductService>();
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddSwaggerGen(c =>
