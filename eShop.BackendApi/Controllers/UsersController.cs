@@ -23,7 +23,7 @@ namespace eShop.BackendApi.Controllers
                 return BadRequest(ModelState);
             }
             var resultToken = await _userService.Authencate(request);
-            if (resultToken == null)
+            if (string.IsNullOrEmpty(resultToken))
             {
                 //return NotFound();
                 return BadRequest("Username or password is incorect.");
